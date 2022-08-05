@@ -100,3 +100,4 @@ class post_delete(LoginRequiredMixin, generic.DeleteView):
         context = super(post_delete, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
+
