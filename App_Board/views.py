@@ -2,6 +2,8 @@ from django.contrib import messages
 from .models import *
 from .forms import *
 from django.shortcuts import render, get_object_or_404, redirect
+from django.conf import settings
+from django.http import HttpResponse
 from django.utils import timezone
 from django.views import generic
 # 함수형 뷰에서 사용하는 권한 제한
@@ -100,4 +102,23 @@ class post_delete(LoginRequiredMixin, generic.DeleteView):
         context = super(post_delete, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
+
+def file_download(request, board_id):
+    print('실행 1')
+    board = get_object_or_404(Board, id=board_id)
+    path = str(board.file)
+    file_name = path.split('/')[-1]
+    print(file_name)
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    # print(file_path)
+ 
+    if os.path.exists(file_path):
+        binary_file = open(file_path, 'rb')
+        response = HttpResponse(binary_file.read(), content_type="multipart/formed-data")
+        # print(response)
+        response['Content-Disposition'] = 'attachment; filename=' + file_name
+        return response
+    else:
+        message = '알 수 없는 오류가 발행하였습니다.'
+        return HttpResponse("<script>alert('"+ message +"');history.back()'</script>")
 

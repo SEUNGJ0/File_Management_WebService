@@ -50,18 +50,12 @@
         </tr>
         </thead>
         <tbody class="text-center">
-            <!-- {% for file in board.files.all reversed %} -->
-            <!-- <tr>
-                <td><a href="{{file.file_path}}">{{file.file_name}}</a></td>
-                <td>{{file.uploader}}</td>
-                <td>{{file.upload_date}}</td>
-            </tr> -->
-            <!-- {% endfor %} -->
             {% if board.file %}
             <tr>
-                <td>{{board.get_filename}}</td>
+                <td><a href="{% url 'App_Board:file_download' board.id %}">{{board.get_filename}}</a></td>
                 <td>{{board.post_author}}</td>
                 <td>{{board.updated_date}}</td>
+                
             </tr>
             {%endif%}
         </tbody>
