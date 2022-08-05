@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<h5 class="border-bottom pb-2 mb-3">{{current_category.name}} > {{board.post_name}}</h5>
+<div style="padding-inline: 5%; padding-top: 2%;">
+    <div class="pb-3 mb-0 border-bottom border-secondary font-weight-bold">
+        <table width="100%">
+        <tr>
+            <td width="58%"><h5>{{board.post_name}}</h5></td>
+            <td width="17%" style="font-size:0.75em">작성자 : {{board.post_author.company}}({{board.post_author.user_name}})</td>
+            <td width="25%" style="font-size:0.75em">
+                <small>< 개시 : {{board.created_date}}></small>
+                {% if board.updated_date != board.created_date%}
+                <br><small>< 수정 : {{board.updated_date}}></small>
+                {% endif %}
+            </td>
+        </tr>
+        </table>
+    </div>
+    <div class="mt-3 mark-content" style="margin: 5%;">{{board.post_context}}</div>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="row" style="margin:20px auto;">
+        <div class="col-sm-12">
+            <div class="alert alert-danger">
+            <strong>{{ message.tags }}!</strong> {{ message.message }}
+            </div>
+        </div>
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% if request.user.company == board.post_author.company or request.user.company == 'admin' %}
+    <table width="100%" class="border-top pb-2 mb-3">
+        <tr>
+            <td width="78%"></td>
+            <td width="11%">
+                <a href="{% url 'App_Board:post_update' board.id  %}" class="btn btn-sm text-light bg-dark">게시물 편집</a>
+            </td>
+            <td width="11%">
+                <a href="{% url 'App_Board:post_delete' board.id  %}" class="btn btn-sm text-light bg-dark">게시물 삭제</a>
+            </td>
+        </tr>
+    </table>
+    
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr class="text-center">
+            <th style="width:50%">문서명</th>
+            <th>작성자</th>
+            <th>날짜</th>
+        </tr>
+        </thead>
+        <tbody class="text-center">
+            <!-- {% for file in board.files.all reversed %} -->
+            <!-- <tr>
+                <td><a href="{{file.file_path}}">{{file.file_name}}</a></td>
+                <td>{{file.uploader}}</td>
+                <td>{{file.upload_date}}</td>
+            </tr> -->
+            <!-- {% endfor %} -->
+            {% if board.file %}
+            <tr>
+                <td>{{board.get_filename}}</td>
+                <td>{{board.post_author}}</td>
+                <td>{{board.updated_date}}</td>
+            </tr>
+            {%endif%}
+        </tbody>
+    </table>
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr class="text-center">
+            <th style="width:30%">편집자</th>
+            <th>편집 날짜</th>
+        </tr>
+        </thead>
+        <tbody class="text-center">
+            {% for editlog in board.editlogs.all reversed %}
+            <tr>
+                <td>{{editlog.editor}}</td>
+                <td>{{editlog.edit_date}}</td>
+                <td>편집</td>
+            </tr>
+            {% endfor%}
+            <tr>
+                <td>{{board.post_author.user_name}}</td>
+                <td>{{board.created_date}}</td>
+                <td>작성</td>
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
+
+{"name":["A1", "A2", "A3"] ,
+"time":["B1", "B2" ,"B3"]}

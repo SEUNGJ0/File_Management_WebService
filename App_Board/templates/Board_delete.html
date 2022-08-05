@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h5 class="border-bottom pb-2 mb-3">{{board.category.name}} > {{board.post_name}}</h5>
+<div style="padding-inline: 5%; padding-top: 2%;">
+    <div class="pb-3 mb-0 border-bottom border-secondary font-weight-bold">
+        <table width="100%">
+        <tr>
+            <td width="58%"><h5>{{board.post_name}}</h5></td>
+            <td width="17%" style="font-size:0.75em">작성자 : {{board.post_author.company}}({{board.post_author.user_name}})</td>
+            <td width="25%" style="font-size:0.75em">
+                <small>< 개시 : {{board.created_date}}></small>
+                {% if board.updated_date != board.created_date%}
+                <br><small>< 수정 : {{board.updated_date}}></small>
+                {% endif %}
+            </td>
+        </tr>
+        </table>
+    </div>
+    <div class="mt-3 mark-content" style="margin: 5%;">{{board.post_context}}</div>
+    <table width="100%" class="border-top pb-2 mb-3">
+        <tr>
+            <td width="78%">
+                <div class = "alter alter-info">
+                    <h5><strong>이 글을 삭제 하겠습니까? </strong></h5>
+                </div>
+            </td>
+            <td width="11%">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger text-light " style="margin-left:55%;" value="삭제">
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

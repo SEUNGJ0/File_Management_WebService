@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">
+        {% if board.category.name %} 
+        {{board.category.name}} - 게시물 수정
+        {% else %}
+        {{current_category.name}} - 게시물 작성
+        {% endif %}</h5>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" class="form-control" name="post_name" id="post_name"  placeholder="제목을 입력하세요" value="{{ board.post_name }}">
+        </div>
+        <div class="mb-3">
+            <textarea class="form-control" style="height: 200px;" name="post_context" id="post_context" placeholder="내용을 입력하세요.">{{board.post_context}}</textarea>
+        </div>
+        <div class="mb-3">
+            <input type="file" class="form-control" name = "file">
+            <!-- <button type="submit" name = "action" value="upload" class="btn btn-sm text-light bg-dark" style="width: 100px;">업로드</button>
+            <button type="button" name = "action" value="download" class="btn btn-sm text-light bg-dark" style="width: 100px;">다운로드</button>
+            <button type="button" name = "action" value="delete" class="btn btn-sm text-light bg-dark" style="width: 100px;">삭 제</button> -->
+            <button type="submit" name = "action" value="save" class="btn btn-sm text-light bg-dark"  width:100px;" >저장하기</button>
+        </div>
+    </form>
+    <table class="table table-sm table-hover text-center">
+        <thead>
+            <tr>
+                <th style="width:40%">문서명</th>
+                <th>작성자</th>
+                <th>날짜</th>
+                <th style="width:10%">버튼</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in board.file.all reversed %}
+            <tr>
+                <td>{{file.file_name}}</td>
+                <td>{{file.uploader}}</td>
+                <td>{{file.upload_date}}</td>
+                <td><input type="checkbox" name="file_check"></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>{{file.file}}</td>
+                <td>{{file.uploader}}</td>
+                <td>{{file.upload_date}}</td>
+                <td><input type="checkbox" name="file_check"></td>
+            </tr>
+        </tbody>
+    </table>
+    <form method="POST" enctype="multipart/form-data">
+
+    </form>
+    
+    
+</div>
+{% endblock %}
