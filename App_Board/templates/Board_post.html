@@ -33,7 +33,7 @@
         <tr>
             <td width="78%"></td>
             <td width="11%">
-                <a href="{% url 'App_Board:post_update' board.id  %}" class="btn btn-sm text-light bg-dark">게시물 편집</a>
+                <a href="{% url 'App_Board:post_update' board.id  %}" class="btn btn-sm text-light bg-dark">게시물 수정</a>
             </td>
             <td width="11%">
                 <a href="{% url 'App_Board:post_delete' board.id  %}" class="btn btn-sm text-light bg-dark">게시물 삭제</a>
@@ -60,19 +60,21 @@
             {%endif%}
         </tbody>
     </table>
+    <!-- Edit log Start -->
     <table class="table table-sm table-hover">
         <thead>
         <tr class="text-center">
-            <th style="width:30%">편집자</th>
-            <th>편집 날짜</th>
+            <th style="width:30%">수정자</th>
+            <th>수정 날짜</th>
         </tr>
         </thead>
+
         <tbody class="text-center">
             {% for editlog in board.editlogs.all reversed %}
             <tr>
                 <td>{{editlog.editor}}</td>
                 <td>{{editlog.edit_date}}</td>
-                <td>편집</td>
+                <td>수정</td>
             </tr>
             {% endfor%}
             <tr>
@@ -82,6 +84,7 @@
             </tr>
         </tbody>
     </table>
+    <!-- Edit log End -->
     {% endif %}
 </div>
 {% endblock %}
