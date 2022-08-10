@@ -12,12 +12,6 @@ class BoardAdmin(admin.ModelAdmin):
 class EditAdmin(admin.ModelAdmin):
     list_display = ['board','edit_date']
 
-# class FileAdmin(admin.ModelAdmin):
-#     list_display = ['board','file_name','uploader','file' ]
-#     list_filter = ['board']
-#     prepopulated_fields = {'file_name':('file',)}
-
 admin.site.register(EditLog, EditAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Board, BoardAdmin)
-# admin.site.register(File, FileAdmin)

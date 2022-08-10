@@ -27,7 +27,6 @@ class Board(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     file = models.FileField(upload_to=file_dir_path, null=True, blank=True, verbose_name='파일 경로')
-
     # 해당 모델의 객체들의 정렬 기준을 설정 [ updated --> 내림차순 ]
     class Meta:
         ordering = ['-id']
@@ -51,20 +50,6 @@ class EditLog(models.Model):
     def __str__(self) -> str:
         return "게시글 : " + str(self.board) + ", 수정일 : " + str(self.edit_date)
 
-# class File(models.Model):
 
-
-#     board = models.ForeignKey(Board, on_delete=models.CASCADE, verbose_name='게시글', related_name='files')
-#     uploader = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='업로더')
-#     file = models.FileField(upload_to=file_dir_path, verbose_name='파일 경로')
-#     file_name = models.CharField(max_length=30,  verbose_name='파일명')
-# # 
-#     upload_date = models.DateTimeField(auto_now_add=True)
-    
-#     def __str__(self) -> str:
-#         return str(self.file_name)
-    
-    # def get_filename(self):
-    #     return os.path.basename(self.file)
 
 

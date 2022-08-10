@@ -40,7 +40,8 @@
             </td>
         </tr>
     </table>
-    
+    <!-- File Section Start -->
+    {% if board.file %}
     <table class="table table-sm table-hover">
         <thead>
         <tr class="text-center">
@@ -50,17 +51,19 @@
         </tr>
         </thead>
         <tbody class="text-center">
-            {% if board.file %}
+           
             <tr>
                 <td><a href="{% url 'App_Board:file_download' board.id %}">{{board.get_filename}}</a></td>
                 <td>{{board.post_author}}</td>
-                <td>{{board.updated_date}}</td>
+                <td>{{board.created_date}}</td>
                 
             </tr>
-            {%endif%}
+            
         </tbody>
     </table>
-    <!-- Edit log Start -->
+    {%endif%}
+    <!-- File Section End -->
+    <!-- Edit log Section Start -->
     <table class="table table-sm table-hover">
         <thead>
         <tr class="text-center">
@@ -84,10 +87,7 @@
             </tr>
         </tbody>
     </table>
-    <!-- Edit log End -->
+    <!-- Edit log Section End -->
     {% endif %}
 </div>
 {% endblock %}
-
-{"name":["A1", "A2", "A3"] ,
-"time":["B1", "B2" ,"B3"]}

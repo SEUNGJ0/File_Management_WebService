@@ -19,18 +19,16 @@ def post_create(request, category_id):
     if request.method == 'POST':
         if request.POST['action'] == 'save':
             form = BoardForm(request.POST, request.FILES)
-            print('save 진행 1')
             if form.is_valid():
-                print('save 진행 2')
                 # 게시판 폼에 추가
                 Board = form.save(commit=False)
                 Board.created_date = timezone.now()
                 Board.category = get_object_or_404(Category, id=category_id)
                 Board.post_author = request.user
                 Board.save()   
-                print("보드 저장")
                 return redirect("App_Board:post_detail", Board.id)
-            return render(request, 'Board_create.html',{'categories' : categories, 'current_category' : category,})
+            context = {'form': form, 'categories' : categories, 'current_category' : category,}
+            return render(request, 'Board_create.html',context)
     else:
         form = BoardForm() # -> unboundForm
 
@@ -41,21 +39,31 @@ def post_create(request, category_id):
 def post_update(request, board_id):
     categories = Category.objects.all()
     board = get_object_or_404(Board, id=board_id)
+
     if request.user.company == board.post_author.company or request.user.company == 'admin' :
         if request.method == "POST":
             form = BoardForm(request.POST, request.FILES, instance=board)
             if form.is_valid():
-                # 게시판 폼에 추가
-                board = form.save(commit=False)
-                board.updated_date = timezone.now()  # 수정일시 저장
-                board.save()
-                form_edit = EditLogForm()
-                editlog = form_edit.save(commit=False)
-                editlog.edit_date = timezone.now()
-                editlog.editor = request.user
-                editlog.board_id = board_id
-                editlog.save()
-                return redirect("App_Board:post_detail", board.id)
+                print(request.POST)
+                if request.POST['action'] == 'save':
+                    # 게시판 폼에 추가
+                    board = form.save(commit=False)
+                    board.updated_date = timezone.now()  # 수정일시 저장
+                    board.save()
+                    form_edit = EditLogForm()
+                    editlog = form_edit.save(commit=False)
+                    editlog.edit_date = timezone.now()
+                    editlog.editor = request.user
+                    editlog.board_id = board_id
+                    editlog.save()
+                    return redirect("App_Board:post_detail", board.id)
+                    
+                elif request.POST['action'] == 'delete':
+                    board = form.save(commit=False)
+                    board.file = None  
+                    board.save()
+                    context = {'form': form, 'categories' : categories, 'board' : board}
+                    return render(request, 'Board_create.html', context)
         else:
             form = BoardForm(instance=board)
 
