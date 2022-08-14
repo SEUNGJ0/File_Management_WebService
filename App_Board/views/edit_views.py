@@ -15,6 +15,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def post_create(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     categories = Category.objects.all()
+    if str(category) == "공지사항" and str(request.user) != "국승조":
+        print('실행')
+        messages.error(request, '작성권한이 없습니다')
+        return redirect("App_Board:post_in_category",category.slug)
 
     if request.method == 'POST':
         if request.POST['action'] == 'save':

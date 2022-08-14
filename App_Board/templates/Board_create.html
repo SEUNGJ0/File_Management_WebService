@@ -21,8 +21,9 @@
             <button type="submit" name = "action" value="save" class="btn btn-sm text-light bg-dark"  style="width:100px; margin-left: 90%;" >저장하기</button>
         </div>
         <div class="mb-3">
-            <input type="file" class="form-control" name = "file" placeholder="테스트">
+            <input type="file" class="form-control" name = "file" placeholder="테스트" accept=".xlsx, .xml">
         </div>
+        
         <!-- File Section Start -->
         {% if board.file %}
         <table class="table table-sm table-hover">

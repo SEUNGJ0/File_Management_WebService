@@ -49,6 +49,17 @@
             </tbody>
         </table>
         <a href="{% url 'App_Board:post_create' current_category.id %}" class="btn btn-sm text-light bg-dark" style="margin-left: 91%;">게시물 작성</a>
+        {% if messages %}
+        {% for message in messages %}
+            <div class="row" style="margin:20px auto;">
+            <div class="col-sm-12">
+                <div class="alert alert-danger">
+                <strong>{{ message.tags }}!</strong> {{ message.message }}
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+        {% endif %}
     </div>  
 </div>
 {% endblock %}

@@ -40,8 +40,9 @@
             </td>
         </tr>
     </table>
+    {%endif%}
     <!-- File Section Start -->
-    {% if board.file %}
+    {% if request.user.company == board.post_author.company or request.user.company == 'admin' or board.category.name == "공지사항"%} 
     <table class="table table-sm table-hover">
         <thead>
         <tr class="text-center">
@@ -51,19 +52,19 @@
         </tr>
         </thead>
         <tbody class="text-center">
-           
+            {% if board.file %}
             <tr>
                 <td><a href="{% url 'App_Board:file_download' board.id %}">{{board.get_filename}}</a></td>
                 <td>{{board.post_author}}</td>
                 <td>{{board.created_date}}</td>
-                
             </tr>
-            
+            {% endif %}
         </tbody>
     </table>
     {%endif%}
     <!-- File Section End -->
     <!-- Edit log Section Start -->
+    {% if request.user.company == board.post_author.company or request.user.company == 'admin' %}
     <table class="table table-sm table-hover">
         <thead>
         <tr class="text-center">
