@@ -3,9 +3,9 @@
 <h5 class="border-bottom pb-2 mb-3">관리</h5>
 <div class="content_block">
     <div>
-        <a class="btn" style="width: 32%;"  href="#">취합 파일</a>
-        <a class="btn" style="width: 32%;"  href="#">통합 파일</a>
-        <a class="btn" style="width: 32%;"  href="#">오류 파일</a>
+        {% for category in s_categories%}
+        <a class="btn" style="width: 32%;" href="{{category.get_absolute_url}}">{{ category.name }}</a>
+        {% endfor %}
     </div>
     <form action="{% url 'App_Files:FileManager' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -22,34 +22,34 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {% for board in files %} 
+                    {% for file in files %} 
                     <tr class="text-center">
                         <!-- 번호 -->
                         <td class="align-middle">
-                            <span>{{board.id}}</span>
+                            <span>{{forloop.revcounter}}</span>
                         </td>
                         <!-- 제목 -->
                         <td class="text-left align-middle">                        
-                            <a href="{% url 'App_Board:file_download' board.id %}" class="subject-link">{{board.get_filename}}</a> 
+                            <a href="{% url 'App_Board:file_download' file.board.id %}" class="subject-link">{{file.board.get_filename}}</a> 
                         </td>
                         <!-- 소속 -->
                         <td class="align-middle text-left small">
-                            <small>{{board.post_author.company}}</small>
+                            <small>{{file.board.post_author.company}}</small>
                         </td>
                         <!-- 날짜 -->
                         <td class="align-middle" style="font-size:0.75em">
-                            {% if board.updated_date == board.created_date%}
-                            <small>{{board.created_date}}</small>
+                            {% if file.board.updated_date == file.board.created_date%}
+                            <small>{{file.board.created_date}}</small>
                             {% else %}
-                            <small>{{board.updated_date}}(수정)</small>
+                            <small>{{file.board.updated_date}}(수정)</small>
                             {% endif %}
                         </td>
-                        <!-- 소속 -->
+                        <!-- 게시글 명 -->
                         <td class="align-middle text-left small">
-                            <small>{{board.post_name}}</small>
+                            <small>{{file.board.post_name}}({{file.board.id}})</small>
                         </td>
                         <td>
-                            <input type="checkbox" name="board_id" value="{{board.id}}">
+                            <input type="checkbox" name="file.board_id" value="{{file.board.id}}">
                         </td>
                     </tr>
                     {% endfor %}
@@ -59,9 +59,14 @@
                 <tbody>
                     <tr>
                         <td style="width: 100%"></td>
+                        {% if current_category.name == "취합 파일"%}
+                        <td>
+                            <button type="submit" name="action" value="reload" class="btn btn-sm " style="width:100px;">불러오기</button>
+                        </td>
                         <td>
                             <button type="submit" name="action" value="sum" class="btn btn-sm " style="width:100px;">자료 통합</button>
                         </td>
+                        {% endif %}
                         <td>
                             <button type="submit" name="action" value="download" class="btn btn-sm " style="width:100px;">다운로드</button>
                         </td>
@@ -121,3 +126,4 @@
     <!-- Last 페이지 버튼 끝-->
 </ul>
 {% endblock %}
+

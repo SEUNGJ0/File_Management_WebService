@@ -1,10 +1,11 @@
 from openpyxl import load_workbook
 import os
+import shutil
 
 class File_Manager():
     def Absorption(num ,file_list, name = None):
         # 추출할 파일들의 경로 설정
-        path = "../media/file/자료 취합/취합 파일/"
+        path = os.getcwd()+"/media/file/자료 취합/취합 파일/"
         colonm = ['A','B','C','D','E','F','G','H','I'] 
         results = []
 
@@ -22,7 +23,7 @@ class File_Manager():
                     break
                 results.append(result)
         
-        guide = "../media/file/공지사항/admin/자료취합_양식_파일.xlsx"
+        guide = os.getcwd()+"/media/file/공지사항/admin/자료취합_양식_파일.xlsx"
         wb = load_workbook(filename=guide)
         ws = wb.active
         count_R = 3
@@ -34,19 +35,15 @@ class File_Manager():
             count_R += 1
 
         if name :
-            wb.save("../media/file/자료 취합/통합 파일/"+str(name)+".xlsx")
+            wb.save(os.getcwd()+"/media/file/자료 취합/통합 파일/"+str(name)+".xlsx")
         else:
-            wb.save("../media/file/자료 취합/통합 파일/"+"통합 파일_"+str(num)+".xlsx")
+            wb.save(os.getcwd()+"/media/file/자료 취합/통합 파일/"+"통합 파일_"+str(num)+".xlsx")
 
     def CopyAndMove(src):
-        import shutil
-        src = src #"../media/"+str(src)
-        dst = "../media/file/자료 취합/취합 파일/" 
+        src = src
+        dst = os.getcwd()+"/media/file/자료 취합/취합 파일/"
         shutil.copy(src, dst)
 
-print(os.getcwd())
-# src = "..media/file/자료 취합/본부_5/Test_Document2.xlsx"
-# File_Manager.CopyAndMove(src)
 
 '''
 import os
