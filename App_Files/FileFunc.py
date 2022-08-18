@@ -1,10 +1,8 @@
 from openpyxl import load_workbook
-import shutil
-import zipfile
 import os
 
 class File_Manager():
-    def File_Absorption(num ,file_list, name = None):
+    def Absorption(num ,file_list, name = None):
         # 추출할 파일들의 경로 설정
         path = "../media/file/자료 취합/취합 파일/"
         colonm = ['A','B','C','D','E','F','G','H','I'] 
@@ -15,7 +13,7 @@ class File_Manager():
             file_name = path + file_name_raw
             wb = load_workbook(filename=file_name, data_only=True)
             ws = wb.active
-            for i in range(3,ws.max_row):
+        for i in range(3,ws.max_row):
                 result = []
                 if ws['A'+str(i)].value:
                     for j in colonm:         
@@ -40,12 +38,15 @@ class File_Manager():
         else:
             wb.save("../media/file/자료 취합/통합 파일/"+"통합 파일_"+str(num)+".xlsx")
 
-    def File_CAM(src):
-        src = "../media/"+str(src)
-        dst = "../media/file/자료 취합/취합 파일/"
+    def CopyAndMove(src):
+        import shutil
+        src = src #"../media/"+str(src)
+        dst = "../media/file/자료 취합/취합 파일/" 
         shutil.copy(src, dst)
 
-
+print(os.getcwd())
+# src = "..media/file/자료 취합/본부_5/Test_Document2.xlsx"
+# File_Manager.CopyAndMove(src)
 
 '''
 import os
