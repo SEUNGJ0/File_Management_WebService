@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 # 클레스형 뷰애서 사용하는 권한 제한
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-
 @login_required(login_url='App_Auth:login')
 def post_create(request, category_id):
     category = get_object_or_404(Category, id=category_id)
