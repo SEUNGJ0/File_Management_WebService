@@ -1,4 +1,3 @@
-from re import T
 from App_Board.models import *
 from django.db import models
 from django.urls import reverse
@@ -18,8 +17,9 @@ class S_Category(models.Model):
 
 class Files(models.Model):
     s_category = models.ForeignKey(S_Category, on_delete=models.SET_NULL, null=True, related_name='files')
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE, null=True)
     file = models.FileField(upload_to='file/자료 취합/취합 파일', null=True)
+    created_date = models.DateTimeField(auto_now_add=True, null = True)
 
     def get_filename(self):
         return str(self.file).split('/')[-1]

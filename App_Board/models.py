@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from App_Auth.models import User
-import os
 
 def file_dir_path(instance, file):
     return f'file/{instance.category}/{instance.post_author.company}/{file}'

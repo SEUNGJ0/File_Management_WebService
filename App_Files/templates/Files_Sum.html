@@ -15,9 +15,7 @@
                 <tr class="text-center">
                     <th>번호</th>
                     <th style="width:30%">자료명</th>
-                    <th>작성자 소속</th>
                     <th>날짜</th>
-                    <th>게시글 명</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -30,24 +28,10 @@
                         </td>
                         <!-- 제목 -->
                         <td class="text-left align-middle">                        
-                            <a href="/media/{{file.file}}" class="subject-link">{{file.board.get_filename}}</a> 
-                        </td>
-                        <!-- 소속 -->
-                        <td class="align-middle text-left small">
-                            <small>{{file.board.post_author.company}}</small>
+                            <a href="/media/{{file.file}}" class="subject-link">{{file.get_filename}}</a> 
                         </td>
                         <!-- 날짜 -->
-                        <td class="align-middle" style="font-size:0.75em">
-                            {% if file.board.updated_date == file.board.created_date%}
-                            <small>{{file.board.created_date}}</small>
-                            {% else %}
-                            <small>{{file.board.updated_date}}(수정)</small>
-                            {% endif %}
-                        </td>
-                        <!-- 게시글 명 -->
-                        <td class="align-middle text-left small">
-                            <small>{{file.board.post_name}}({{file.board.id}})</small>
-                        </td>
+                        <td class="align-middle">{{file.created_date}}</td>
                         <td>
                             <input type="checkbox" name="file_id" value="{{file.id}}">
                         </td>
@@ -59,14 +43,6 @@
                 <tbody>
                     <tr>
                         <td style="width: 100%"></td>
-                        {% if current_category.name == "취합 파일"%}
-                        <td>
-                            <button type="submit" name="action" value="reload" class="btn btn-sm " style="width:100px;">불러오기</button>
-                        </td>
-                        <td>
-                            <button type="submit" name="action" value="sum" class="btn btn-sm " style="width:100px;">자료 통합</button>
-                        </td>
-                        {% endif %}
                         <td>
                             <button type="submit" name="action" value="download" class="btn btn-sm " style="width:100px;">다운로드</button>
                         </td>
