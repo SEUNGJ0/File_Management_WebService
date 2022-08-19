@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h5 class="border-bottom pb-2 mb-3">관리 > 통합 파일</h5>
+<h5 class="border-bottom pb-2 mb-3">관리 > 오류 로그</h5>
 <div class="content_block">
     <div>
         {% for category in s_categories%}
@@ -14,13 +14,13 @@
                 <thead>
                 <tr class="text-center">
                     <th>번호</th>
-                    <th style="width:30%">자료명</th>
+                    <th style="width:30%">제목</th>
                     <th>날짜</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                    {% for file in files%} 
+                    {% for errorlog in errorlogs reversed %} 
                     <tr class="text-center">
                         <!-- 번호 -->
                         <td class="align-middle">
@@ -28,10 +28,10 @@
                         </td>
                         <!-- 제목 -->
                         <td class="text-left align-middle">                        
-                            <a href="/media/{{file.file}}" class="subject-link">{{file.get_filename}}</a> 
+                            <a href="{{ errorlog.get_absolute_url }}" class="subject-link">{{errorlog.title}}</a> 
                         </td>
                         <!-- 날짜 -->
-                        <td class="align-middle">{{file.created_date}}</td>
+                        <td class="align-middle">{{errorlog.created_date}}</td>
                         <td>
                             <input type="checkbox" name="file_id" value="{{file.id}}">
                         </td>
@@ -43,9 +43,6 @@
                 <tbody>
                     <tr>
                         <td style="width: 100%"></td>
-                        <td>
-                            <button type="submit" name="action" value="download" class="btn btn-sm " style="width:100px;">다운로드</button>
-                        </td>
                         <td>
                             <button type="submit" name="action" value="delete" class="btn btn-sm " style="width:100px;">삭 제</button>
                         </td>
@@ -119,4 +116,3 @@
     <!-- Last 페이지 버튼 끝-->
 </ul>
 {% endblock %}
-

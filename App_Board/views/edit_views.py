@@ -4,7 +4,7 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
-import os
+
 
 # 함수형 뷰에서 사용하는 권한 제한
 from django.contrib.auth.decorators import login_required

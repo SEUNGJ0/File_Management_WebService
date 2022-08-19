@@ -11,3 +11,4 @@ class CateAdmin(admin.ModelAdmin):
 
 admin.site.register(Files, FilesAdmin)
 admin.site.register(S_Category, CateAdmin)
+admin.site.register(ErrorLog)

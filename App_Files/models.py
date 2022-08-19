@@ -27,6 +27,11 @@ class Files(models.Model):
     class Meta:
         ordering = ['-id']
 
+class ErrorLog(models.Model):
+    title = models.CharField(max_length=100)
+    error_message = models.TextField(max_length=100000)
+    created_date = models.DateTimeField(auto_now_add=True, null = True)
 
-        
-    
+    def get_absolute_url(self):
+        return reverse('App_Files:ErrorLogDetail', args = [str(self.id)])   
+

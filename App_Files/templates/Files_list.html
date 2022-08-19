@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h5 class="border-bottom pb-2 mb-3">관리</h5>
+<h5 class="border-bottom pb-2 mb-3">관리 > 취합 파일</h5>
 <div class="content_block">
     <div>
         {% for category in s_categories%}
@@ -79,6 +79,23 @@
         </div>  
     </form>
 </div>
+{% if messages %}
+    {% for message in messages %}
+        <div class="row" style="margin:20px auto;">
+        <div class="col-sm-12">
+            {% if message.tags == "error"%}
+            <div class="alert alert-danger alert-auto-dismissible alert-dismissible notification-container text-center">
+            <strong>오류!!</strong> {{ message.message }}
+            </div>
+            {% else %}
+            <div class="alert alert-auto-dismissible alert-dismissible notification-container text-center">
+            <strong>성공!!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+        </div>
+        </div>
+    {% endfor %}
+{% endif %}
 {% endblock %}
 {% block pagination %}
 <ul class="pagination justify-content-center pagination-sm">
