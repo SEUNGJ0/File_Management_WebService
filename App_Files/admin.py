@@ -7,8 +7,10 @@ class FilesAdmin(admin.ModelAdmin):
 class CateAdmin(admin.ModelAdmin):
     list_display = ['id','name', 'slug']
     prepopulated_fields = {'slug':('name',)}
-    
+
+class ErrorLogAdmin(admin.ModelAdmin):
+    list_display = ['id','title']
 
 admin.site.register(Files, FilesAdmin)
 admin.site.register(S_Category, CateAdmin)
-admin.site.register(ErrorLog)
+admin.site.register(ErrorLog, ErrorLogAdmin)
