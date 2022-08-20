@@ -20,6 +20,8 @@ def post_in_category(request, category_slug = None):
     
 def post_detail(request, board_id):
     board = get_object_or_404(Board, id=board_id)
+    board.counting += 1 
+    board.save()
     categories = Category.objects.all()
     current_category = get_object_or_404(Category, id = board.category.id)
     context = { 

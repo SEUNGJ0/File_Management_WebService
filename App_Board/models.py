@@ -26,7 +26,7 @@ class Board(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     file = models.FileField(upload_to=file_dir_path, null=True, blank=True, verbose_name='파일 경로')
-    
+    counting = models.IntegerField(default=0)
     # 해당 모델의 객체들의 정렬 기준을 설정 [ updated --> 내림차순 ]
     class Meta:
         ordering = ['-id']

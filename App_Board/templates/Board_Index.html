@@ -9,6 +9,7 @@
                 <th>번호</th>
                 <th style="width:40%">제 목</th>
                 <th>소속</th>
+                <th>조회수</th>
                 <th>작성자</th>
                 <th>날짜</th>
             </tr>
@@ -23,11 +24,13 @@
                 </td>
                 <!-- 제목 -->
                 <td class="text-left align-middle">                        
-                    <a href="{{ board.get_absolute_url }}" class="subject-link">{{board.post_name}}</a> 
-                </td>
+                    <a href="{{ board.get_absolute_url }}" class="subject-link">{{board.post_name}}</a>
                 <!-- 소속 -->
                 <td class="align-middle text-left small">
                     <small>{{board.post_author.company}}</small>
+                </td>
+                <td class="align-middle text-left small">
+                    <small >{{board.counting}}</small>
                 </td>
                 <!-- 작성자 -->
                 <td class="align-middle text-left small">
