@@ -6,12 +6,12 @@ app_name='App_Board'
 
 urlpatterns = [
     # base_views.py
-    path('', base_views.board_home, name = 'post_all'),
+    path('', base_views.board_home, name = 'board_home'),
     path('<category_slug>/', base_views.post_in_category, name = 'post_in_category'),
     path('post/<int:board_id>', base_views.post_detail, name = 'post_detail'),
 
     # edit_views.py
-    path('create/<category_id>', edit_views.post_create, name = 'post_create'),
+    path('crea3te/<category_id>', edit_views.post_create, name = 'post_create'),
     path('update/<int:board_id>', edit_views.post_update, name = 'post_update'),
     path('post/<int:pk>/delete', edit_views.post_delete.as_view(), name = 'post_delete'),
 

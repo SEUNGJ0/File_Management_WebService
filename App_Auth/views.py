@@ -13,7 +13,7 @@ def signup_view(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(email=email, password=password)
             login(request, user)
-            return redirect("App_Board:post_all")
+            return redirect("App_Board:board_home")
     else:
         form = UserCreationForm()
     return render(request, 'sign.html', {'form': form, 'categories':categories})
@@ -27,7 +27,7 @@ def login_view(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect("App_Board:post_all")
+            return redirect("App_Board:board_home")
         else:
             return render(request, 'login.html', {'error':'이메일 또는 비밀번호가 일치하지 않습니다.','categories':categories})
     else:

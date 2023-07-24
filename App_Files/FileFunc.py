@@ -1,4 +1,3 @@
-
 from openpyxl import load_workbook, styles
 import os
 import shutil
@@ -21,22 +20,22 @@ class File_Manager():
             wb = load_workbook(filename=file_name, data_only=True)
             ws = wb.active
             for i in range(3,ws.max_row): # 읽을 행 지정
-                    result = []
-                    if ws['A'+str(i)].value:
-                        for j in colonm: # 열 지정
-                            if j in ['A','B','C','G','H','I']:
-                                if type(ws[j+str(i)].value) == int:
-                                    result.append(ws[j+str(i)].value)
-                                else:
-                                    error_message.append(f"{j}{i}")
+                result = []
+                if ws['A'+str(i)].value:
+                    for j in colonm: # 열 지정
+                        if j in ['A','B','C','G','H','I']:
+                            if type(ws[j+str(i)].value) == int:
+                                result.append(ws[j+str(i)].value)
                             else:
-                                if type(ws[j+str(i)].value) == str:
-                                    result.append(ws[j+str(i)].value)
-                                else:
-                                    error_message.append(f"{j}{i}")
-                    else:
-                        break
-                    results.append(result)
+                                error_message.append(f"{j}{i}")
+                        else:
+                            if type(ws[j+str(i)].value) == str:
+                                result.append(ws[j+str(i)].value)
+                            else:
+                                error_message.append(f"{j}{i}")
+                else:
+                    break
+                results.append(result)
             if error_message:
                 error_messages[file_name_raw] = error_message 
         
