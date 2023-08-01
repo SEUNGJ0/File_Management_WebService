@@ -9,7 +9,7 @@ class File_Manager():
         # 추출할 파일들의 경로 설정
         path = os.getcwd()+"/media/file/관리/취합 파일/"
         colonm = ['A','B','C','D','E','F','G','H','I']
-        date = datetime.datetime.now().strftime("%m월%d일%H시%M분")
+        date = datetime.datetime.now().strftime("%y%m%d-%H:%M")
         results = []
         error_messages = {}
         
@@ -40,7 +40,7 @@ class File_Manager():
                 error_messages[file_name_raw] = error_message 
         
         if not error_messages:
-            guide = os.getcwd()+"/media/file/공지사항/admin/자료취합_양식_파일.xlsx"
+            guide = os.getcwd()+"/media/file/공지사항/국승조/2/자료취합_양식_파일.xlsx"
             wb = load_workbook(filename=guide)
             ws = wb.active
             count_R = 3
@@ -55,8 +55,8 @@ class File_Manager():
             if name :
                 save_path = os.getcwd()+"/media/file/관리/통합 파일/"+str(name)+".xlsx"
             else:
-                save_path = os.getcwd()+"/media/file/관리/통합 파일/"+"통합 파일_"+date+".xlsx"
-                path = "file/관리/통합 파일/"+"통합 파일_"+date+".xlsx"
+                save_path = os.getcwd()+"/media/file/관리/통합 파일/"+"통합 파일["+date+"].xlsx"
+                path = "file/관리/통합 파일/"+"통합 파일["+date+"].xlsx"
             wb.save(save_path)
             return path
         else :

@@ -1,13 +1,13 @@
-{% extends "base.html" %}
+{% extends "Files_Home.html" %}
 {% block content %}
-<h5 class="border-bottom pb-2 mb-3">관리 > {{current_category}} </h5>
+<h5 class="border-bottom pb-2 mb-3">관리 > {{select_category}} </h5>
 <div class="content_block">
     <div>
-        {% for category in s_categories%}
+        {% for category in all_file_category%}
         <a class="btn" style="width: 32%;" href="{{category.get_absolute_url}}">{{ category.name }}</a>
         {% endfor %}
     </div>
-    <form action="{% url 'App_Files:FileManager' current_category.id %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'App_Files:FileManager' select_category.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
         <div class="table-responsive">
             <table class="table table-sm table-hover">
@@ -22,7 +22,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {% for file in files%} 
+                    {% for file in all_file%} 
                     <tr class="text-center">
                         <!-- 번호 -->
                         <td class="align-middle">
@@ -30,23 +30,19 @@
                         </td>
                         <!-- 제목 -->
                         <td class="text-left align-middle">                        
-                            <a href="/media/{{file.file}}" class="subject-link">{{file.board.get_filename}}</a> 
+                            <a href="{% url 'App_Board:file_download' file.file.id %}" class="subject-link">{{file.file}}</a> 
                         </td>
                         <!-- 소속 -->
                         <td class="align-middle text-left small">
-                            <small>{{file.board.post_author.company}}</small>
+                            <small>{{file.file.user.company}}</small>
                         </td>
                         <!-- 날짜 -->
                         <td class="align-middle" style="font-size:0.75em">
-                            {% if file.board.updated_date == file.board.created_date%}
-                            <small>{{file.board.created_date}}</small>
-                            {% else %}
-                            <small>{{file.board.updated_date}}(수정)</small>
-                            {% endif %}
+                            <small>{{file.file.created_date}}</small>
                         </td>
                         <!-- 게시글 명 -->
                         <td class="align-middle text-left small">
-                            <small>{{file.board.post_name}}({{file.board.id}})</small>
+                            <small>{{file.file.post}}({{file.file.post.id}})</small>
                         </td>
                         <td>
                             <input type="checkbox" name="file_id" value="{{file.id}}">
@@ -59,7 +55,7 @@
                 <tbody>
                     <tr>
                         <td style="width: 100%"></td>
-                        {% if current_category.name == "취합 파일"%}
+                        {% if select_category.name == "취합 파일"%}
                         <td>
                             <button type="submit" name="action" value="reload" class="btn btn-sm " style="width:100px;">불러오기</button>
                         </td>
@@ -96,51 +92,5 @@
         </div>
     {% endfor %}
 {% endif %}
-{% endblock %}
-{% block pagination %}
-<ul class="pagination justify-content-center pagination-sm">
-    <!-- First 페이지 버튼 -->
-    {% if page_obj.number != 1 %}
-    <li class = "page-item">
-        <a class = "page-link" href="{{ request.path }}?page=1">First</a>
-    </li>
-    {% endif %}
-    <!-- First 페이지 버튼 끝-->
-
-    <!-- Previous 페이지 버튼 -->
-    <li class = "page-item {% if not page_obj.has_previous %}disabled{% endif %}">
-        <a class = "page-link" href="{% if page_obj.has_previous %}{% url 'App_Files:HomeList' %}?page={{ page_obj.previous_page_number }} {% else %} # {% endif %}" tabindex="-1"><</a>
-    </li>
-    <!-- Previous 페이지 버튼 끝 -->
-
-    <!-- 페이지 중간 넘버 설정 -->
-    {% for object in page_obj.paginator.page_range %}
-        <li class="page-item {% if page_obj.number == forloop.counter %} disabled {% endif %}">
-            <a class="page-link" href="{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}       
-            </a>
-        </li>
-    {% endfor %}
-    <!-- 페이지 중간 넘버 설정 끝 -->
-
-    <!-- Next 페이지 버튼 -->
-    {% if page_obj.has_next %}
-    <li class = "page-item">
-        <a class = "page-link" href="{% url 'App_Files:HomeList' %}?page={{ page_obj.next_page_number }}">></a>
-    </li>
-    {% else %}
-    <li class = "page-item disabled">
-        <a class="page-link" href="#">></a>
-    </li>
-    {% endif %}
-    <!-- Next 페이지 버튼 끝 -->
-
-    <!-- Last 페이지 버튼 -->
-    {% if page_obj.number != page_obj.paginator.num_pages %}
-    <li class = "page-item">
-        <a class = "page-link" href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}">Last</a>
-    </li>
-    {% endif %}
-    <!-- Last 페이지 버튼 끝-->
-</ul>
 {% endblock %}
 

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<h5 class="border-bottom pb-2 mb-3">관리 > {{current_category}}</h5>
+<h5 class="border-bottom pb-2 mb-3">관리 > {{select_category}}</h5>
 <div class="content_block">
     <div>
-        {% for category in s_categories%}
+        {% for category in all_file_category%}
         <a class="btn" style="width: 32%;" href="{{category.get_absolute_url}}">{{ category.name }}</a>
         {% endfor %}
     </div>
-    <form action="{% url 'App_Files:FileManager' current_category.id %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'App_Files:FileManager' select_category.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
         <div class="table-responsive">
             <table class="table table-sm table-hover">
@@ -20,7 +20,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {% for file in files%} 
+                    {% for file in all_file%} 
                     <tr class="text-center">
                         <!-- 번호 -->
                         <td class="align-middle">
@@ -28,10 +28,10 @@
                         </td>
                         <!-- 제목 -->
                         <td class="text-left align-middle">                        
-                            <a href="/media/{{file.file}}" class="subject-link">{{file.get_filename}}</a> 
+                            <a href="/media/{{file.integrated_file}}" class="subject-link">{{file.get_integrated_filename}}</a> 
                         </td>
                         <!-- 날짜 -->
-                        <td class="align-middle">{{file.created_date}}</td>
+                        <td class="align-middle">{{file.get_filecreatetime}}</td>
                         <td>
                             <input type="checkbox" name="file_id" value="{{file.id}}">
                         </td>

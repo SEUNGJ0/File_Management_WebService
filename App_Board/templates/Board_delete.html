@@ -6,7 +6,7 @@
         <table width="100%">
         <tr>
             <td width="58%"><h5>{{board.post_name}}</h5></td>
-            <td width="17%" style="font-size:0.75em">작성자 : {{board.post_author.company}}({{board.post_author.user_name}})</td>
+            <td width="17%" style="font-size:0.75em">작성자 : {{board.post_author.company}}({{board.post_author.name}})</td>
             <td width="25%" style="font-size:0.75em">
                 <small>< 개시 : {{board.created_date}}></small>
                 {% if board.updated_date != board.created_date%}
@@ -16,7 +16,7 @@
         </tr>
         </table>
     </div>
-    <div class="mt-3 mark-content" style="margin: 5%;">{{board.post_context}}</div>
+    <div class="mt-3 mark-content" style="margin: 5%;">{{board.post_content}}</div>
     <table width="100%" class="border-top pb-2 mb-3">
         <tr>
             <td width="78%">

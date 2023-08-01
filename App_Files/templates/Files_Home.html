@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-<h5 class="border-bottom pb-2 mb-3">관리</h5>
+<h5 class="border-bottom pb-2 mb-3">
+    관리
+    {% if select_category %}
+    > {{select_category}}
+    {% endif %}
+</h5>
 <div class="content_block">
     <div>
-        {% for category in s_categories%}
+        {% for category in all_file_category%}
         <a class="btn" style="width: 32%;" href="{{category.get_absolute_url}}">{{ category.name }}</a>
         {% endfor %}
-    </div>
+    </div>    
 {% endblock %}

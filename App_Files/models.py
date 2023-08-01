@@ -4,7 +4,7 @@ from django.urls import reverse
 
 # Create your models here.
 
-class S_Category(models.Model):
+class File_Category(models.Model):
     name = models.CharField(max_length=20, unique=True)
     slug = models.SlugField(max_length=200, db_index=True, unique=True, allow_unicode=True)
 
@@ -15,14 +15,23 @@ class S_Category(models.Model):
         return reverse('App_Files:File_in_category', args=[self.slug])
 
 
-class Files(models.Model):
-    s_category = models.ForeignKey(S_Category, on_delete=models.SET_NULL, null=True, related_name='files')
-    board = models.ForeignKey(Board, on_delete=models.CASCADE, null=True)
-    file = models.FileField(upload_to='file/자료 취합/취합 파일', null=True)
-    created_date = models.DateTimeField(auto_now_add=True, null = True)
+class Integrated_Files(models.Model):
+    file_category = models.ForeignKey(File_Category, on_delete=models.SET_NULL, null=True, related_name='files')
+    post = models.ForeignKey(Board, on_delete=models.CASCADE, null=True)
+    file = models.ForeignKey(Files, on_delete=models.CASCADE, null=True)
+    integrated_file = models.FileField(default= None, null=True)
 
     def get_filename(self):
         return str(self.file).split('/')[-1]
+    
+    def get_integrated_filename(self):
+        return str(self.integrated_file).split('/')[-1]
+    
+    def get_filecreatetime(self):
+        import os, time
+        file_path = os.getcwd()+"/media/"+str(self.integrated_file)
+        create_time = time.strftime("%Y년 %m월 %d일 %H:%M", time.localtime(os.path.getctime(file_path)))
+        return create_time
     
     class Meta:
         ordering = ['-id']

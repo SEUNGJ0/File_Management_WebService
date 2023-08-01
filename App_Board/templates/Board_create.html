@@ -3,27 +3,73 @@
 {% block content %}
 <div class="container">
     <h5 class="my-3 border-bottom pb-2">
-        {% if board.category.name %} 
-        {{board.category.name}} - 게시물 수정
+        {% if select_post.category.name %} 
+        {{select_post.category.name}} - 게시물 수정
         {% else %}
-        {{current_category.name}} - 게시물 작성
+        {{select_category.name}} - 게시물 작성
         {% endif %}
     </h5>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
-            <input type="text" class="form-control" name="post_name" id="post_name"  placeholder="제목을 입력하세요" value="{{ board.post_name }}">
+            <input type="text" class="form-control" name="post_name" id="post_name"  placeholder="제목을 입력하세요" value="{{ select_post.post_name }}">
         </div>
         <div class="mb-3">
-            <textarea class="form-control" style="height: 200px;" name="post_context" id="post_context" placeholder="내용을 입력하세요.">{{board.post_context}}</textarea>
+            <textarea class="form-control" style="height: 200px;" name="post_content" id="post_content" placeholder="내용을 입력하세요.">{{select_post.post_content}}</textarea>
         </div>
+        {% comment %} 이미지 첨부 시작{% endcomment %}
+        <div class="mb-3">
+            <strong>이미지 첨부</strong>
+            <input type="file" class="form-control" name="image" id="image" accept="image/*" multiple>
+        </div>
+        {% if select_post.photo_set.all %}
+        <table class="table table-sm table-hover">
+            <thead>
+            <tr class="text-center">
+                <th style="width:45%">이미지</th>
+                <th style="width:10%"></th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for image in select_post.photo_set.all %}
+                <tr>
+                    <td><a href='image.image.url'>{{image.get_imagename}}</a></td>
+                    <td><button type="submit" name="action" value="delete_i{{image.id}}"  class="btn btn-danger"  style="width:100px;">삭제</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {%endif%}
+        {% comment %} 이미지 첨부 끝 {% endcomment %}
+
+        {% comment %} 파일 첨부 시작 {% endcomment %}
+        <div class="mb-3">
+            <strong>파일 첨부</strong>
+            <input type="file" class="form-control" name="file" id="file" multiple>
+        </div>
+        {% if select_post.files_set.all %}
+        <table class="table table-sm table-hover">
+            <thead>
+            <tr class="text-center">
+                <th style="width:45%">첨부 파일</th>
+                <th style="width:10%"></th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for file in select_post.files_set.all %}
+                <tr>
+                    <td><a href='file.file.url'>{{file.get_filename}}</a></td>
+                    <td><button type="submit" name="action" value="delete_f{{file.id}}"  class="btn btn-danger"  style="width:100px;">삭제</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {%endif%}
+        {% comment %} 파일 첨부 끝 {% endcomment %}
+        
         <div class="mb-3">
             <button type="submit" name = "action" value="save" class="btn btn-sm text-light bg-dark"  style="width:100px; margin-left: 90%;" >저장하기</button>
         </div>
-        <div class="mb-3">
-            <input type="file" class="form-control" name = "file" placeholder="테스트" accept=".xlsx, .xml">
-        </div>
-        
         <!-- File Section Start -->
         {% if board.file %}
         <table class="table table-sm table-hover">

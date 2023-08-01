@@ -1,16 +1,25 @@
 from django.contrib import admin
 from .models import *
 
+
+
+class PhotoInline(admin.TabularInline):
+    model = Photo
+
+class FileInline(admin.TabularInline):
+    model = Files
+
+class BoardAdmin(admin.ModelAdmin):
+    inlines = [PhotoInline, FileInline]
+    list_display = ['post_name','post_content', 'post_author', 'category','created_date', 'updated_date']
+    list_filter = ['created_date', 'updated_date', 'category']
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id','name', 'slug']
     prepopulated_fields = {'slug':('name',)}
 
-class BoardAdmin(admin.ModelAdmin):
-    list_display = ['post_name','post_context', 'post_author', 'category','created_date', 'updated_date']
-    list_filter = ['created_date', 'updated_date', 'category']
-
 class EditAdmin(admin.ModelAdmin):
-    list_display = ['board','edit_date']
+    list_display = ['post','edit_date']
 
 admin.site.register(EditLog, EditAdmin)
 admin.site.register(Category, CategoryAdmin)
