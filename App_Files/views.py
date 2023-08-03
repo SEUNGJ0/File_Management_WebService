@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Integrated_Files, File_Category, ErrorLog
-from App_Board.models import *
-from .FileFunc import File_Manager
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+from App_Files.models import Integrated_Files, File_Category, ErrorLog
+from App_Files.FileFunc import File_Manager
+from App_Board.models import *
+from App_Board.views.render_views import pagination
+
 import datetime
 import os
 
@@ -26,6 +29,9 @@ def File_in_CategoryView(request, File_Category_slug = None):
     if File_Category_slug:
         select_category = get_object_or_404(File_Category, slug=File_Category_slug)
         all_file = Integrated_Files.objects.filter(file_category=select_category)
+        page = request.GET.get('page', '1')
+        page_obj = pagination(page, all_file, 5)
+
     else:
         select_category = None
         all_file = Integrated_Files.objects.all()
@@ -33,10 +39,11 @@ def File_in_CategoryView(request, File_Category_slug = None):
     context = {
         'select_category' : select_category, 
         'all_file_category' : all_file_category, 
-        'all_file' : all_file, 
+        'all_file' : page_obj, 
         'all_category':all_category, 
         'errorlogs':errorlogs, 
-        'request':request
+        'request':request,
+        'page_obj' : page_obj
     }
     template_name = {
         "취합-파일" : 'Files_List.html',

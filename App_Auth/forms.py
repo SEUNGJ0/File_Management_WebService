@@ -41,12 +41,31 @@ class UserCreationForm(forms.ModelForm):
         return user
 
 class UserChangeForm(forms.ModelForm):
-    password = ReadOnlyPasswordHashField()
     
     class Meta:
         model = User
-        fields = ('password', 'name', 'phone_number', 'is_active', 'is_admin')
+        fields = ('name', 'phone_number')
 
-    def clean_password(self):
-        return self.initial["password"]
+    
+class UserPasswordChangeForm(forms.ModelForm):
+    password = ReadOnlyPasswordHashField()
+    password = forms.CharField(label='비밀번호', widget=forms.PasswordInput)
+    password_check = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ('password', )
+
+    def clean_password_check(self):
+        # self.cleaned_data['데이터'] : 데이트를 획득
+        password = self.cleaned_data.get("password")
+        password_check = self.cleaned_data.get("password_check")
+        if password and password_check and password != password_check:
+            raise forms.ValidationError("비밀번호가 일치하지 않습니다!")
+        return password_check
+     
         
+class UserCompanyChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('company', )

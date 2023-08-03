@@ -8,6 +8,7 @@ urlpatterns = [
     path('', include('App_Board.urls')),
     path('auth/', include('App_Auth.urls')),
     path('file/',include('App_Files.urls')),
+    path('user/', include('App_Userpage.urls')),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

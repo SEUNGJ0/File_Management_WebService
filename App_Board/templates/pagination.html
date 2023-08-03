@@ -1,0 +1,55 @@
+<ul class="pagination justify-content-center pagination-sm">
+    <!-- First 페이지 버튼 -->
+    {% if page_obj.number != 1 %}
+    <li class = "page-item">
+        <a class = "page-link" href="{{ request.path }}?page=1">First</a>
+    </li>
+    {% endif %}
+    <!-- First 페이지 버튼 끝-->
+
+    <!-- Previous 페이지 버튼 -->
+    <li class = "page-item 
+        {% if not page_obj.has_previous %}
+        disabled
+        {% endif %}">
+        <a class = "page-link" 
+        href="
+        {% if page_obj.has_previous %}
+        {{request.path}}?page={{ page_obj.previous_page_number }} 
+        {% else %}
+        # 
+        {% endif %}" tabindex="-1"><</a>
+    </li>
+    <!-- Previous 페이지 버튼 끝 -->
+
+    <!-- 페이지 중간 넘버 설정 -->
+    {% for object in page_obj.paginator.page_range %}
+        {% if object >= page_obj.number|add:-3 and object <= page_obj.number|add:3 %}
+            <li class="page-item {% if page_obj.number == forloop.counter %} disabled {% endif %}">
+                <a class="page-link" href="{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}       
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+    <!-- 페이지 중간 넘버 설정 끝 -->
+
+    <!-- Next 페이지 버튼 -->
+    {% if page_obj.has_next %}
+    <li class = "page-item">
+        <a class = "page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">></a>
+    </li>
+    {% else %}
+    <li class = "page-item disabled">
+        <a class="page-link" href="#">></a>
+    </li>
+    {% endif %}
+    <!-- Next 페이지 버튼 끝 -->
+
+    <!-- Last 페이지 버튼 -->
+    {% if page_obj.number != page_obj.paginator.num_pages %}
+    <li class = "page-item">
+        <a class = "page-link" href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}">Last</a>
+    </li>
+    {% endif %}
+    <!-- Last 페이지 버튼 끝-->
+</ul>

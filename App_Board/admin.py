@@ -11,7 +11,7 @@ class FileInline(admin.TabularInline):
 
 class BoardAdmin(admin.ModelAdmin):
     inlines = [PhotoInline, FileInline]
-    list_display = ['post_name','post_content', 'post_author', 'category','created_date', 'updated_date']
+    list_display = ['post_name', 'post_author', 'category','created_date', 'updated_date']
     list_filter = ['created_date', 'updated_date', 'category']
 
 class CategoryAdmin(admin.ModelAdmin):

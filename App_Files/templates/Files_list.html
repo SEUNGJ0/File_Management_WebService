@@ -1,4 +1,4 @@
-{% extends "Files_Home.html" %}
+{% extends "base.html" %}
 {% block content %}
 <h5 class="border-bottom pb-2 mb-3">관리 > {{select_category}} </h5>
 <div class="content_block">
@@ -26,7 +26,7 @@
                     <tr class="text-center">
                         <!-- 번호 -->
                         <td class="align-middle">
-                            <span>{{forloop.revcounter}}</span>
+                            <span>{{file.id}}</span>
                         </td>
                         <!-- 제목 -->
                         <td class="text-left align-middle">                        
@@ -75,6 +75,7 @@
         </div>  
     </form>
 </div>
+{% include "pagination.html" %}
 {% if messages %}
     {% for message in messages %}
         <div class="row" style="margin:20px auto;">

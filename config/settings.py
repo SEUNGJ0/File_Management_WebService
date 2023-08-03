@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'App_Auth',
     'App_Board',
     'App_Files',
+    'App_Userpage'
 ]
 
 MIDDLEWARE = [

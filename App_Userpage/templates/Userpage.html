@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-3">
+    <div class = "row">
+        <div class = "col-lg-4">
+            <div class="mb-3">
+                <label for="email">사용자 Email</label>
+                <a class="form-control" readonly="true">{{ user.email }}</a>
+            </div>
+            <div class="mb-3">
+                <label for="name">이름</label>
+                <a class="form-control" readonly="true">{{user.name}}</a>
+            </div>
+            <div class="mb-3">
+                <label for="phone_number">전화번호</label>
+                <a class="form-control" readonly="true">{{user.phone_number}}</a>
+            </div>
+            <div class="mb-3">
+                <label for="company" >회사명/회사코드</label>
+                <a class="form-control" readonly="true">{{user.company}}</a>                
+            </div>
+            <a href="{% url 'App_Userpage:user_update_view'  user.id %}" class="btn btn-sm text-light bg-dark">
+                회원정보 수정
+            </a>
+            <a href="{% url 'App_Userpage:password_change_view'  user.id %}" class="btn btn-sm text-light bg-dark">
+                비밀번호 변경
+            </a>
+        </div>
+
+        <div class = "col-lg-7">
+            <h4>작성한 게시물</h4>
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr class="text-center">
+                    <th>번호</th>
+                    <th style="width:30%">제 목</th>
+                    <th>소속</th>
+                    <th>조회수</th>
+                    <th>작성자</th>
+                    <th>날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if user.board_set.all %}
+                {% for board in boards %} 
+                <tr class="text-center">
+                    <!-- 번호 -->
+                    <td class="align-middle">
+                        <span>{{board.id}}</span>
+                    </td>
+                    <!-- 제목 -->
+                    <td class="text-left align-middle">                        
+                        <a href="{{ board.get_absolute_url }}" class="subject-link">{{board.post_name}}</a>
+                    <!-- 소속 -->
+                    <td class="align-middle text-left small">
+                        <small>{{board.post_author.company}}</small>
+                    </td>
+                    <td class="align-middle text-left small">
+                        <small >{{board.post_views_counting}}</small>
+                    </td>
+                    <!-- 작성자 -->
+                    <td class="align-middle text-left small">
+                        <small>{{board.post_author.name}}</small>
+                    </td>
+                    <!-- 날짜 -->
+                    <td class="align-middle" style="font-size:0.75em">
+                        {% if board.updated_date == board.created_date%}
+                        <small>{{board.created_date}}</small>
+                        {% else %}
+                        <small>{{board.updated_date}}(수정)</small>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <h4>  작성된 게시물이 없습니다.</h4>
+                {% endif %}
+                </tbody>
+            </table>
+            {% include "pagination.html" %}
+    </div>      
+</div>
+{% if messages %}
+    {% for message in messages %}
+        <div class="row" style="margin:20px auto;">
+        <div class="col-sm-12">
+            <div class="alert alert-success">
+            <strong>{{ message.tags }}!</strong> {{ message.message }}
+            </div>
+        </div>
+        </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}

@@ -89,7 +89,7 @@
         </thead>
 
         <tbody class="text-center">
-            {% for editlog in select_post.editlogs.all reversed %}
+            {% for editlog in editlogs reversed %}
             <tr>
                 <td>{{editlog.editor}}</td>
                 <td>{{editlog.edit_date}}</td>

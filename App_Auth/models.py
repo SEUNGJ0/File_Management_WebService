@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.core.validators import RegexValidator
 
 # 사용자 생성 및 관리 기능을 구현
 class UserManager(BaseUserManager):    
@@ -40,7 +41,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     email = models.EmailField(max_length=255, unique=True, verbose_name='이메일')
     name = models.CharField(max_length=30, verbose_name='사용자 실명')
-    phone_number = models.IntegerField(verbose_name='전화번호')
+    phoneNumberRegex = RegexValidator(regex = r'^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$')
+    phone_number = models.CharField(validators = [phoneNumberRegex], max_length = 11, unique = True, verbose_name='전화번호')
     company = models.CharField(max_length=30, verbose_name='소속명')
     
     is_active = models.BooleanField(default=True)

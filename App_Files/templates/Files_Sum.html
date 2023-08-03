@@ -24,7 +24,7 @@
                     <tr class="text-center">
                         <!-- 번호 -->
                         <td class="align-middle">
-                            <span>{{forloop.revcounter}}</span>
+                            <span>{{file.id}}</span>
                         </td>
                         <!-- 제목 -->
                         <td class="text-left align-middle">                        
@@ -55,6 +55,7 @@
         </div>  
     </form>
 </div>
+{% include "pagination.html" %}
 {% if messages %}
     {% for message in messages %}
         <div class="row" style="margin:20px auto;">

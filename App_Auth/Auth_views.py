@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
+
 from .forms import UserCreationForm
 from App_Board.models import Category
 
@@ -38,9 +39,7 @@ def login_view(request):
     if request.method == 'POST' :
         email = request.POST['email']
         password = request.POST['password']
-        print(email, password)
         user = authenticate(request, email=email, password=password)
-        print(user)
         if user:
             login(request, user)
             return redirect("App_Board:main_page")
