@@ -14,7 +14,6 @@ class UserCreationForm(forms.ModelForm):
 
     # clean_<Field_name>() : 해당 필드의 유효성을 체크하는 메소드
     # 유효성 검사
-
     # 입력한 비밀번호의 일치 확인
     def clean_password_check(self):
         # self.cleaned_data['데이터'] : 데이트를 획득
@@ -39,6 +38,7 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
 
 class UserChangeForm(forms.ModelForm):
     
@@ -69,3 +69,4 @@ class UserCompanyChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('company', )
+

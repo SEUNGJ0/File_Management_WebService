@@ -40,10 +40,10 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):    
     objects = UserManager()
     email = models.EmailField(max_length=255, unique=True, verbose_name='이메일')
-    name = models.CharField(max_length=30, verbose_name='사용자 실명')
+    name = models.CharField(max_length=30, verbose_name='이름')
     phoneNumberRegex = RegexValidator(regex = r'^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$')
     phone_number = models.CharField(validators = [phoneNumberRegex], max_length = 11, unique = True, verbose_name='전화번호')
-    company = models.CharField(max_length=30, verbose_name='소속명')
+    company = models.CharField(max_length=30, verbose_name='회사명/회사코드')
     
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -58,3 +58,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         return self.is_admin
     
+class EmailVerification(models.Model):
+    user = models.OneToOneField(User,  on_delete=models.CASCADE)
+    email = models.EmailField(max_length=255, unique=True)
+    verification_code = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    is_verificate = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.email} - {self.verification_code}"

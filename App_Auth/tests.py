@@ -8,3 +8,4 @@ for i in range(10,50):
                           post_name = f"[{i+1}]자유 게시판 작성 테스트",
                           post_content = "테스트\n"*30)
      
+

@@ -3,10 +3,13 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .forms import UserChangeForm, UserCreationForm
-from .models import User
+from .models import User, EmailVerification
 
+class EmailInline(admin.TabularInline):
+    model = EmailVerification
 
 class UserAdmin(BaseUserAdmin):
+    inlines = [EmailInline]
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
