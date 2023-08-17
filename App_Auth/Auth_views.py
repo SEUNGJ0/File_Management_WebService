@@ -23,14 +23,11 @@ class SignupView(View):
         action = request.POST.get('action')
         email = request.POST.get('email')
         context = self.get_context(email=email)
-        print("이메일 : ",email)
-
         if action == 'signup':
             form = UserCreationForm(request.POST)
             context['form'] = form
             email_verified = get_secret(email)
             context['email_verified'] = email_verified
-            print(context)
             
             # 이메일 인증 상태 확인
             if email_verified == True:
