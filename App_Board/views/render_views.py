@@ -47,17 +47,16 @@ def post_render_view(request, board_id):
         }
     return render(request, 'Board_post.html', context)
 
-
-def pagination(page, model, page_num):
+def pagination(page, model, set_num):
     # Paginator(쿼리셋, 한 페이지에 몇개의 포스트를 볼지 설정)
-    paginator = Paginator(model, page_num)
+    paginator = Paginator(model, set_num)
     try:
         page_obj = paginator.page(page)
-    except PageNotAnInteger:
+    except PageNotAnInteger: # page 값이 없을 때
         page = 1
         page_obj = paginator.page(page)
-    except EmptyPage:
-        page = paginator.num_pages
+    except EmptyPage: # page를 너무 크게 입력하는 경우
+        page = paginator.num_pages # 가장 마지막 page를 출력
         page_obj = paginator.page(page)
     return page_obj
    
