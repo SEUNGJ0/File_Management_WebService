@@ -1,4 +1,4 @@
-from App_Auth.models import User, EmailVerification
+from App_Auth.models import User
 from App_Auth.forms import UserChangeForm
 
 from App_Board.models import Category
@@ -50,26 +50,17 @@ def password_update_view(request, user_id):
     # 사용자 객체를 가져오거나 찾지 못하면 404를 반환
     user = get_object_or_404(User, id = user_id)
 
-    # 이메일 인증 후 페스워드 변경시 필요 코드
-    # 사용자가 이메일을 인증했는지 확인
-    try:
-        user_email_verify = EmailVerification.objects.get(user=user)
-        user_is_verificate = user_email_verify.is_verificate
-    except EmailVerification.DoesNotExist:
-        user_is_verificate = False
-
     context = {
         'all_category' : all_category,
         'user' : user,
-        'user_is_verificate' : user_is_verificate
         }
     
     if request.method == 'POST':
         # 옵션 필드에 대해 get() 사용
         origin_password = request.POST.get('origin_password', None) # 기본값 : None
 
-        # 기존 비밀번호가 일치하거나 사용자가 이메일을 인증했을 경우
-        if check_password(origin_password, user.password) or user_is_verificate:
+        # 기존 비밀번호가 일치하는 경우
+        if check_password(origin_password, user.password):
             new_password = request.POST['new_password']
             password_check = request.POST['password_check']
 
