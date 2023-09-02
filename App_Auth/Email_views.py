@@ -1,11 +1,13 @@
 import smtplib, random, string
 from email.mime.text import MIMEText
-from config.get_secret import get_secret, input_secret
+
+from django.contrib.auth. tokens import default_token_generator
 from django.shortcuts import render, redirect
 from django.views import View
 
 from App_Board.models import Category
 from App_Auth.models import User  
+from config.get_secret import get_secret, input_secret
 
 
 def generate_verification_code():
@@ -63,12 +65,12 @@ class EmailVerificationView(View):
             send_email_with_verification_code(email, verification_code, name=user)
             context['info'] = f"해당 {email} 주소로 인증 코드가 전송되었습니다."
 
-
         elif action == "check_code":
             if self.verify_code(request, email):
+                user_token = default_token_generator.make_token(user)
                 context.update(email_verified=True, success="이메일 인증에 성공했습니다.")
                 input_secret(email, True)     
-                return redirect('App_Auth:password_change', user.id)
+                return redirect('App_Userpage:password_update_view', user.id, user_token)
             else:
                 context['error'] = "인증 코드를 다시 확인해주세요"
                 

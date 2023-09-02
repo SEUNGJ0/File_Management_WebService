@@ -3,7 +3,7 @@
 <div class="container my-3">
     <div class = "row">
         <div class = "col-lg-5">
-            <form method="post" action="{% url 'App_Userpage:user_update_view' user.id %}">
+            <form method="post" action="{% url 'App_Userpage:user_update_view' %}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="email">사용자 Email</label>

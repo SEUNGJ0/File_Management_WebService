@@ -4,7 +4,7 @@ from django.views import View
 
 from App_Auth.forms import UserCreationForm
 from App_Board.models import Category, User
-from config.get_secret import get_secret, input_secret
+from config.get_secret import get_secret, input_secret, delete_secret
 from App_Auth.Email_views import generate_verification_code, send_email_with_verification_code
 
 
@@ -33,12 +33,12 @@ class SignupView(View):
                 password = form.cleaned_data.get('password')  # 비밀번호 필드 이름 수정
                 # authenticate(request=None, **credentials): User 인증 함수
                 user = authenticate(email=email, password=password)
-                # login()함수를 사용한다. 이 함수는 user의 id와 pw를 장고의 session에 저장한다.\
+                # login()함수를 사용한다. 이 함수는 user의 id와 pw를 장고의 session에 저장한다.
                 login(request, user)
+                delete_secret(email)
                 return redirect("App_Board:main_page")
             
             return render(request, self.template_name, context)
-
                     
         elif action == 'signup_send_code':
             # 이메일 중복 검사

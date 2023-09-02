@@ -19,10 +19,10 @@
                 <label for="company" >회사명/회사코드</label>
                 <a class="form-control" readonly="true">{{user.company}}</a>                
             </div>
-            <a href="{% url 'App_Userpage:user_update_view'  user.id %}" class="btn btn-sm text-light bg-dark">
+            <a href="{% url 'App_Userpage:user_update_view' %}" class="btn btn-sm text-light bg-dark">
                 회원정보 수정
             </a>
-            <a href="{% url 'App_Userpage:password_update_view'  user.id %}" class="btn btn-sm text-light bg-dark">
+            <a href="{% url 'App_Userpage:password_update_view' user.id user_token %}" class="btn btn-sm text-light bg-dark">
                 비밀번호 변경
             </a>
         </div>
