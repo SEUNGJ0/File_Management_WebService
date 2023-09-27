@@ -4,5 +4,7 @@
 /venv
 __pycache__
 .DS_Store
+.gitignore
+locusttestfile.py
 db.sqlite3 
 secrets.json

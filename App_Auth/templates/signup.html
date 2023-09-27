@@ -4,6 +4,7 @@
     <div class = "row">
         <div class = "col-lg-5">
             <form method="post" action="{% url 'App_Auth:signup' %}">
+                <h2>회원 가입</h2>
                 {% csrf_token %}
                 {% if email %}
                 <div class="mb-3">

@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'App_Board',
     'App_Files',
     'App_Userpage',
+    'django_dbml',
+
     # 'sslserver',
 ]
 

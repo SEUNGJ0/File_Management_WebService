@@ -5,6 +5,7 @@
         <div class = "col-lg-5">
             <form method="post" action="{% url 'App_Auth:login' %}">
                 {% csrf_token %}
+                <h2>로그인</h2>
                 <input type="hidden" name="next" value="{{ next }}">  <!-- 로그인 성공후 이동되는 URL -->
                 <div class="mb-3">
                     <label for="email">사용자 Email</label>
@@ -16,7 +17,7 @@
                     <input type="password" class="form-control" name="password" id="password">
                 </div>
                 <button type="submit" style="width:49%; height:35px;" class="btn btn-sm text-light bg-dark">로그인</button>
-                <a href="{% url 'App_Auth:email_check' %}" style="width:49%; height:35px;" class="btn btn-sm text-light bg-dark">비밀번호 찾기</a>
+                <a href="{% url 'App_Userpage:email_check' %}" style="width:49%; height:35px;" class="btn btn-sm text-light bg-dark">비밀번호 찾기</a>
             </form>
         </div>
         <div class="col-lg-4">

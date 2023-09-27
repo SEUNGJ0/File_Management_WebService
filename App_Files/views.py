@@ -85,14 +85,14 @@ def ErrorLogDetailView(request, error_id):
     return render(request, "Files_ErrorDetail.html", context)
 
 
-# 자료 취합 게시판에서 첨부된 파일들을 불러와서 새로운 파일의 경우 해당 앱의 all_file 모델에 추가하여 저장한다.
+# 자료 취합 게시판에서 첨부된 파일들을 불러와서 새로운 파일의 경우 해당 앱의 Integrated_Files 모델에 추가하여 저장한다.
 def handle_reload(request, cate_slug):
     posts = Board.objects.filter(category_id=3)
     count = 0
     for post in posts:
         files = Files.objects.filter(post = post)
         for file in files:
-            if Integrated_Files.objects.filter(file=file): # all_file 모델에 존재하는 인스턴스인지 확인
+            if Integrated_Files.objects.filter(file=file): # Integrated_Files 모델에 존재하는 인스턴스인지 확인
                 break
             else: # 새로운 인스턴스인 경우
                 path_re = file.get_filepath()
@@ -146,7 +146,6 @@ def handle_download(request, cate_slug, all_file):
         return redirect("App_Files:File_in_category", cate_slug)
 
     file_list = [str(Integrated_Files.objects.get(id=int(id)).get_filename()) for id in all_file]
-    print(file_list)
     File_Manager.ZipDownload(file_list)
     return redirect("App_Board:file_download", file_id=0)
 
