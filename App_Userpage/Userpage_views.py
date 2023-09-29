@@ -3,14 +3,12 @@ from App_Auth.models import User
 from App_Auth.EmailFunc import *
 from App_Board.models import Category
 from App_Board.views.render_views import pagination
-from config.get_secret import delete_secret
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash, login
 from django.contrib.auth.tokens import default_token_generator
-# from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required 
 
 
@@ -103,23 +101,30 @@ class EmailVerificationView(View):
         
         # 이메일 유무 검사
         if User.objects.filter(email__iexact = email).exists():
-            user = User.objects.get(email=email)
-            email_verification = EmailVerification(email, user = user)
-            
+            user = User.objects.get(email=email)            
         # 입력한 이메일의 회원이 없음
         else:
             context.update(email=False, error='사용자 Email을 다시 입력해주세요.')
-            return render(request, self.template_name, context) 
-
-        if action == "send_code":            
-            email_verification.send_code_email()
-            context['info'] = f"해당 {email} 주소로 인증 코드가 전송되었습니다."
+            return render(request, self.template_name, context)
+        
+        if action == "send_code":
+            # 인증 클래스 인스턴스 및 코드 생성
+            email_verification = EmailVerification(request, email, user=user)
+            # 인증 코드 전송
+            email_verification.send_code_email(request, context)
 
         elif action == "check_code":
-            if email_verification.verify_code(request, email):
+            code = request.session.get('verification_code')
+            # 인증 클래스 인스턴스 생성(인증 코드 유지)
+            email_verification = EmailVerification(request, email, user=user,code=code)
+            
+            # 인증 코드 검증 성공
+            if email_verification.verify_code(request):
                 user_token = default_token_generator.make_token(user)
-                delete_secret(email)
+                request.session['email_verified'] = True
                 return redirect('App_Userpage:password_update_view', user.id, user_token)
+            
+            # 인증 코드 검증 실패
             else:
                 context['error'] = "인증 코드를 다시 확인해주세요"
                 

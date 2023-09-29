@@ -34,6 +34,8 @@ def post_render_view(request, board_id):
     select_post = get_object_or_404(Board, id=board_id)
     select_post.post_views_counting += 1 
     select_post.save()
+    for key, value in request.session.items():
+        print(f"Key: {key}, Value: {value}")
     editlogs = select_post.editlogs.all()
     select_category = get_object_or_404(Category, id = select_post.category.id)
     if select_category == "자료 취합":
