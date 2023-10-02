@@ -59,8 +59,6 @@ class SignupView(View):
             # 인증 코드 검증 성공
             if email_verification.verify_code(request):
                 context.update(email_verified=True, success="이메일 인증에 성공했습니다.")
-                request.session['email_verified'] = True    
-
             # 인증 코드 검증 실패
             else:
                 context['error'] = "인증 코드를 다시 확인해주세요"

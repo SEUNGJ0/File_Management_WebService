@@ -121,7 +121,6 @@ class EmailVerificationView(View):
             # 인증 코드 검증 성공
             if email_verification.verify_code(request):
                 user_token = default_token_generator.make_token(user)
-                request.session['email_verified'] = True
                 return redirect('App_Userpage:password_update_view', user.id, user_token)
             
             # 인증 코드 검증 실패

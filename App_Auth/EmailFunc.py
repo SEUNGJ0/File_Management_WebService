@@ -1,28 +1,33 @@
 import smtplib, random, string
 from email.mime.text import MIMEText
 from config.get_secret import get_secret
+from config import settings
 
 class EmailVerification:
     def __init__(self, request, email, user=None, code=False):
-        # 초기값 설정
-        self.send_email = get_secret('Send_Email')
-        self.recv_email = email
-        self.password = get_secret('Naver_Password')
-        self.code_length = 6
-
+        """
+        EmailVerification 클래스 초기화
+        :param request: 현재 요청 객체
+        :param email: 수신자 이메일 주소
+        :param user: 사용자 (선택 사항)
+        :param code: 기존 인증 코드 (선택 사항)
+        """
         if code :
             self.verification_code = code
         else:
             self.verification_code = self.generate_verification_code()
-            
+        # 세션 생성
         session_dict = {'email':email, 'verification_code': self.verification_code, "email_verified":False}
         for key, value in session_dict.items():
             request.session[key] = value
 
-         # SMTP 서버 설정
-        self.smtp_server = "smtp.naver.com" 
-        self.smtp_port = 587
-
+        # 초기값 설정
+        self.send_email = settings.EMAIL_VERIFICATION_SETTINGS['email_sender']
+        self.recv_email = email
+        self.password = settings.EMAIL_VERIFICATION_SETTINGS['email_password']
+        # SMTP 서버 설정
+        self.smtp_server = settings.EMAIL_VERIFICATION_SETTINGS['smtp_server']
+        self.smtp_port = settings.EMAIL_VERIFICATION_SETTINGS['smtp_port']
         # 이메일 내용 설정    
         self.text = f"인증 코드 : {self.verification_code}"
         self.msg = MIMEText(self.text) 
@@ -48,14 +53,21 @@ class EmailVerification:
 
     # 알파벳과 숫자를 조합하여 지정한 길이의 문자셋 생성
     def generate_verification_code(self):
+        code_length = 6
         characters = string.ascii_letters + string.digits
-        verification_code = ''.join(random.choices(characters, k=self.code_length))
+        verification_code = ''.join(random.choices(characters, k=code_length))
         return verification_code
     
     # 입력한 코드와 생성된 코드를 비교
     def verify_code(self, request):
         get_code = request.session.get('verification_code')
         input_code = request.POST.get('code')
+
         for key, value in request.session.items():
             print(key," : ",value)
-        return get_code == input_code
+
+        if get_code == input_code:
+            request.session['email_verified'] = True
+            return True
+        else:
+            return False

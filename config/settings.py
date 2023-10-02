@@ -17,7 +17,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
+# 이메일 발신을 위한 설정
+EMAIL_VERIFICATION_SETTINGS = {
+    'smtp_server': 'smtp.naver.com',
+    'smtp_port': 587,
+    'email_sender': get_secret('Send_Email'),
+    'email_password': get_secret('Naver_Password')
+}
 # Application definition
 
 INSTALLED_APPS = [
