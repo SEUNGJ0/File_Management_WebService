@@ -62,10 +62,8 @@ class EmailVerification:
     def verify_code(self, request):
         get_code = request.session.get('verification_code')
         input_code = request.POST.get('code')
-
         for key, value in request.session.items():
             print(key," : ",value)
-
         if get_code == input_code:
             request.session['email_verified'] = True
             return True
