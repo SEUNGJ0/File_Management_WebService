@@ -1,6 +1,6 @@
-from pathlib import Path
 import os
 from .get_secret import get_secret
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,10 +37,17 @@ INSTALLED_APPS = [
     'App_Board',
     'App_Files',
     'App_Userpage',
+    'App_API',
     'django_dbml',
-
+    'rest_framework',
     # 'sslserver',
 ]
+
+REST_FRAMEWORK = {
+    # Pagination 클래스와 페이지 크기를 정의
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination', 
+    'PAGE_SIZE': 10
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
