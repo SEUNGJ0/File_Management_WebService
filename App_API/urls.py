@@ -1,17 +1,19 @@
-from django.urls import include, path
+from django.urls import path, include
 from rest_framework import routers
 from rest_framework.urlpatterns import format_suffix_patterns
-from App_API.ViewSet import *
+from App_API.views.Board_viewset import *
+from App_API.views.User_viewset import UserViewSet
 
 router = routers.DefaultRouter()
-router.register('board', BoardViewSet)
-router.register('category', CategoryViewSet)
+router.register(r'category', CategoryViewSet)
+router.register(r'boards', BoardViewSet)
+router.register(r'files', FilesViewSet)
+router.register(r'photos', PhotosViewSet)
+router.register(r'editlogs', EditlogViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
-   path('', include(router.urls)),
-#    # APIView
-#    path('blog/apiv/', APIView.BlogList.as_view()),
-#    path('blog/apiv/<int:pk>/', APIView.BlogDetail.as_view()),
+   path('', include(router.urls))
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)
