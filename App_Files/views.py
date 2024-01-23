@@ -19,15 +19,15 @@ def File_HomeView(request):
     return render(request, "Files_Home.html", {'all_file_category':all_file_category, 'all_category':all_category})
 
 @login_required(login_url='App_Auth:login')
-def File_in_CategoryView(request, File_Category_slug = None):
+def File_in_CategoryView(request, file_category_slug = None):
     if request.user.company != "admin" :
         return redirect('App_Board:post_all')
     
     all_file_category = File_Category.objects.all()
     errorlogs = ErrorLog.objects.all()
 
-    if File_Category_slug:
-        select_category = get_object_or_404(File_Category, slug=File_Category_slug)
+    if file_category_slug:
+        select_category = get_object_or_404(File_Category, slug=file_category_slug)
         all_file = Integrated_Files.objects.filter(file_category=select_category)
         page = request.GET.get('page', '1')
         page_obj = pagination(page, all_file, 5)
@@ -50,12 +50,12 @@ def File_in_CategoryView(request, File_Category_slug = None):
         "통합-파일" : 'Files_Sum.html',
         "오류-로그" : 'Files_Error.html'
     }
-    return render(request, template_name[File_Category_slug], context)
+    return render(request, template_name[file_category_slug], context)
 
 
-def FileManagerView(request, cate_id):
+def FileManagerView(request, categoty_id):
     if request.method == "POST":
-        select_category = File_Category.objects.get(id=cate_id)
+        select_category = File_Category.objects.get(id=categoty_id)
         cate_slug = select_category.slug
         all_file = request.POST.getlist('file_id')
         errors = request.POST.getlist('errorlog_id')
